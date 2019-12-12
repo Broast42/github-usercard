@@ -2,6 +2,17 @@
            (replacing the palceholder with your Github name):
            https://api.github.com/users/<your name>
 */
+const cardPlacment = document.querySelector(".cards");
+
+axios
+  .get("https://api.github.com/users/Broast42")
+  .then((res) =>{
+    const data = res.data;
+    cardPlacment.appendChild(createCard(data));
+
+    console.log(res);
+  });
+
 
 /* Step 2: Inspect and study the data coming back, this is YOUR 
    github info! You will need to understand the structure of this 
@@ -45,6 +56,48 @@ const followersArray = [];
 </div>
 
 */
+
+function createCard(obj){
+  const carDiv = document.createElement("div");
+  const img = document.createElement("img");
+  const cardInfo = document.createElement("div");
+  const name = document.createElement("h3");
+  const userName = document.createElement("p");
+  const location = document.createElement("p");
+  const profile = document.createElement("p");
+  const proLink = document.createElement("a");
+  const followers = document.createElement("p");
+  const following = document.createElement("p");
+  const bio = document.createElement("p");
+
+  name.textContent = obj.name;
+  userName.textContent = obj.login;
+  location.textContent = `Location: ${obj.location}`;
+  profile.textContent = "Profile: ";
+  followers.textContent = `Followers: ${obj.followers}`;
+  following.textContent = `Following: ${obj.following}`;
+  bio.textContent = `Bio: ${obj.bio}`;
+  proLink.textContent = obj.html_url;
+  carDiv.classList.add("card");
+  cardInfo.classList.add("card-info");
+  name.classList.add("name");
+  userName.classList.add("username");
+  proLink.href = obj.html_url;
+  img.src= obj.avatar_url;
+
+  carDiv.appendChild(img);
+  carDiv.appendChild(cardInfo);
+  cardInfo.appendChild(name);
+  cardInfo.appendChild(userName);
+  cardInfo.appendChild(location);
+  cardInfo.appendChild(profile);
+  profile.appendChild(proLink);
+  cardInfo.appendChild(followers);
+  cardInfo.appendChild(following);
+  cardInfo.appendChild(bio);
+
+  return carDiv;
+}
 
 /* List of LS Instructors Github username's: 
   tetondan
