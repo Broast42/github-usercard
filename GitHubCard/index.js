@@ -11,26 +11,34 @@ axios
     cardPlacment.appendChild(createCard(data));
 
     console.log(res);
-
+  
     const followersApi = data.followers_url;
     axios
-    .get(followersApi)
-    .then((resf) =>{
-      const fdata = resf.data;
-      fdata.forEach(x=>{
-        axios
-        .get(`https://api.github.com/users/${x.login}`)
-        .then((nres)=>{
-          const ndata = nres.data;
-          cardPlacment.appendChild(createCard(ndata));
+      .get(followersApi)
+      .then((resf) =>{
+        const fdata = resf.data;
+        fdata.forEach(x=>{
+          axios
+            .get(`https://api.github.com/users/${x.login}`)
+            .then((nres)=>{
+              const ndata = nres.data;
+              cardPlacment.appendChild(createCard(ndata));
+            })
+            .catch((err) => {
+              console.log('You hit an error: ', err);
+            });
+            
         });
-      });
 
-      console.log(resf);
+        console.log(resf);
+      })
+      .catch((err) => {
+        console.log('You hit an error: ', err);
+      });
     })
- 
-  })
-  
+    .catch((err) => {
+      console.log('You hit an error: ', err);
+    });
 
   
 
