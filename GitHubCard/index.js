@@ -11,7 +11,28 @@ axios
     cardPlacment.appendChild(createCard(data));
 
     console.log(res);
-  });
+
+    const followersApi = data.followers_url;
+    axios
+    .get(followersApi)
+    .then((resf) =>{
+      const fdata = resf.data;
+      fdata.forEach(x=>{
+        axios
+        .get(`https://api.github.com/users/${x.login}`)
+        .then((nres)=>{
+          const ndata = nres.data;
+          cardPlacment.appendChild(createCard(ndata));
+        });
+      });
+
+      console.log(resf);
+    })
+ 
+  })
+  
+
+  
 
 
 /* Step 2: Inspect and study the data coming back, this is YOUR 
@@ -35,7 +56,27 @@ axios
           user, and adding that card to the DOM.
 */
 
-const followersArray = [];
+// const followersArray = [
+//   'rachellsincere',
+//   'tlewandowski18',
+//   'CJStryker',
+//   'candaceyw',
+//   'dvwhite',
+//   'sophiasagan',
+//   'cberumen51',
+//   'fuston05',
+//   'fnumilat'
+// ];
+
+// followersArray.forEach(x =>{
+//   axios
+//     .get(`https://api.github.com/users/${x}`)
+//     .then((res) =>{
+//       const data = res.data;
+//       cardPlacment.appendChild(createCard(data));
+//     });
+
+// });
 
 /* Step 3: Create a function that accepts a single object as its only argument,
           Using DOM methods and properties, create a component that will return the following DOM element:
